@@ -55,6 +55,10 @@ class CommentList extends React.Component {
   }
 }
 class CommentForm extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   handleSubmit(e) {
     e.preventDefault();
     var author = React.findDOMNode(this.refs.author).value.trim();
@@ -69,8 +73,9 @@ class CommentForm extends React.Component {
     React.findDOMNode(something.refs.text).value = '';
   }
   render() {
+    // need to bind context when using a class. this way otherwise its bound to window
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
+      <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
         <input type="text" ref="author" placeholder="Your name" onKeyUp={this.blah}/>
         <input type="text" ref="text" placeholder="Say something..." />
         <input type="submit" value="Post" />
