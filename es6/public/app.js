@@ -55,14 +55,10 @@ class CommentList extends React.Component {
   }
 }
 class CommentForm extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   handleSubmit(e) {
     e.preventDefault();
     var author = React.findDOMNode(this.refs.author).value.trim();
-    var text   = React.findDOMNode(this.refs.refs.text).value.trim();
+    var text   = React.findDOMNode(this.refs.text).value.trim();
 
     if (!text || !author) {
       return;
