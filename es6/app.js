@@ -7,7 +7,8 @@ class CommentBox extends React.Component {
   handleCommentSubmit(comment) {
     var comments = this.fetchComments();
     comments.push(comment);
-    localStorage.comments = comments;
+    this.setState({comments: comments});
+    localStorage.comments = JSON.stringify(comments);
   }
   fetchComments() {
     var comments = localStorage.comments;
@@ -33,7 +34,7 @@ class CommentBox extends React.Component {
       <div className="commentBox">
         <h1>Comments</h1>
         <CommentList comments={this.state.comments}/>
-        <CommentForm onCommentSubmit={this.handleCommentSubmit} />
+        <CommentForm onCommentSubmit={this.handleCommentSubmit.bind(this)} />
       </div>
     );
   }
@@ -58,20 +59,19 @@ class CommentForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     var author = React.findDOMNode(this.refs.author).value.trim();
-    var text   = React.findDOMNode(this.refs.refs.text).value.trim();
-
+    var text   = React.findDOMNode(this.refs.text).value.trim();
     if (!text || !author) {
       return;
     }
 
-    something.props.onCommentSubmit({author: author, text: text});
-    React.findDOMNode(something.refs.author).value = '';
-    React.findDOMNode(something.refs.text).value = '';
+    this.props.onCommentSubmit({author: author, text: text});
+    React.findDOMNode(this.refs.author).value = '';
+    React.findDOMNode(this.refs.text).value = '';
   }
   render() {
     return (
-      <form className="commentForm" onSubmit={this.handleSubmit}>
-        <input type="text" ref="author" placeholder="Your name" onKeyUp={this.blah}/>
+      <form className="commentForm" onSubmit={this.handleSubmit.bind(this)}>
+        <input type="text" ref="author" placeholder="Your name" />
         <input type="text" ref="text" placeholder="Say something..." />
         <input type="submit" value="Post" />
       </form>
